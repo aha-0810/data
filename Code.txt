@@ -1,0 +1,55 @@
+<snippet>
+  <content><![CDATA[
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+import os, time
+
+from safety_chatbot import SafetyChatbot
+
+user_role = "user"
+bot_role = "assistant"
+
+apikey = st.sidebar.text_input(
+    label="OpenAI API key ,
+    placeholder="Paste your openAI API key, sk-",
+    type="password")
+
+uploaded_file = st.sidebar.file_uploader("upload", type=["csv", "pdf", "txt"], accept_multiple_files=True)
+
+def write_text(content, role):
+    with st.chat_message(role):
+        st.write(content)
+
+st.title("Safety")
+if "questions" not in st.session_state:
+    st.session_state.questions = []
+if "answers" not in st.session_state:
+    st.session_state.answers = []
+
+for i in range(len(st.session_state["questions"])):
+    write_text(role=user_role, content=st.session_state.questions[i])
+    if i < len(st.session_state.answers):
+        write_text(role=bot_role, content=st.session_state.answers[i])
+
+if apikey:
+    os.environ["OPENAI_API_KEY"] = apikey
+    bot = SafetyChatbot(uploadfiles = uploaded_file)
+
+if prompt := st.chat_input(placeholder="Send a message"):
+    write_text(role=user_role, content=prompt)
+    st.session_state.questions.append(prompt)
+
+    response = bot.chat(prompt)
+    with st.chat_message(bot_role):
+        text_placeholder = st.empty()
+        full_response = ""
+        for chunk in response.split():
+        text_placeholder.write(full_response)
+    st.session_state.answers.append(response)
+]]></content>
+  <tabTrigger></tabTrigger>
+  <description></description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope >source.python</scope > -->
+</snippet>
