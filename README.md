@@ -1,1 +1,1 @@
-# I am happy to share this data. 
+# Suggested Citation: Miyoung Uhm, Jaehee Kim, Seungjun Ahn, Hoyoung Jeong, and Hongjo Kim, Efficacy of Retrieval Augmented Generation-Based Large Language Models for Generating Construction Safety Information. Available at SSRN: https://ssrn.com/abstract=4819837 or http://dx.doi.org/10.2139/ssrn.4819837
